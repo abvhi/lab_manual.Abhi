@@ -1,0 +1,144 @@
+!— program5-students.component.html -->
+<div>
+<h2>{{componentTitle}}</h2>
+<br/>
+<label for="numberOfStudents">Enter the number of students:</label>
+<input type="text" id="numberOfStudents" [(ngModel)]="numberOfStudents"
+/>
+<button (click)="generateStudentDetails()">Generate Student 
+Details</button>(Max count:15)
+<div *ngIf="students.length > 0">
+<p>Total Students: {{ students.length }}</p>
+<table>
+<thead>
+<tr class="trCls">
+<th>USN</th>
+<th>Name</th>
+<th>Contact number</th>
+<th>CGPA</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let student of students">
+<th>{{student.usn}}</th>
+<th>{{student.name}}</th>
+<th>{{student.contactNum}}</th>
+<th>{{student.cgpa}}</th>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+********************************
+/ program5-students.component.ts
+import { Component } from '@angular/core';
+@Component({
+selector: 'app-program5-students',
+templateUrl: './program5-students.component.html',
+styleUrls: ['./program5-students.component.css'],
+})
+export class Program5StudentsComponent {
+componentTitle: string = "Program #5 - Students Details";
+numberOfStudents: number = 0;
+students: Student[] = [];
+generateStudentDetails() {
+if(this.numberOfStudents>=0) {
+this.students = this.loadStudents().slice(0,this.numberOfStudents);
+}
+}
+loadStudents(): Student[] {
+return [
+{usn:"4SU21CS1E001",name:"Ram",contactNum:9512456718,cgpa:3},
+{usn:"4SU21CSE002",name:"Vinay",contactNum:9512456721,cgpa:4},
+{usn:"4SU21CSE003",name:"Krishna",contactNum:9512456722,cgpa:5},
+{usn:"4SU21CSE004",name:"Prasad",contactNum:9512456723,cgpa:2},
+{usn:"4SU21CSE005",name:"Geetha",contactNum:9512456724,cgpa:3},
+{usn:"4SU21CSE006",name:"Seetha",contactNum:9512456725,cgpa:4},
+{usn:"4SU21CSE007",name:"Amar",contactNum:9512456726,cgpa:5},
+{usn:"4SU21CSE008",name:"Keerthi",contactNum:9512456727,cgpa:2},
+{usn:"4SU21CSE009",name:"Prasad",contactNum:9512456728,cgpa:3},
+{usn:"4SU21CSE010",name:"Vishnu",contactNum:9512456729,cgpa:2},
+{usn:"4SU21CSE011",name:"Bahadhur",contactNum:9512456731,cgpa:5},
+{usn:"4SU21CSE012",name:"Vani",contactNum:9512456732,cgpa:5},
+{usn:"4SU21CSE013",name:"Krunal",contactNum:9512456733,cgpa:4},
+{usn:"4SU21CSE014",name:"Sachin",contactNum:9512456734,cgpa:4},
+{usn:"4SU21CSE015",name:"Vamshi",contactNum:9512456735,cgpa:3},
+];
+}
+}nterface Student {
+usn: string;
+name: string;
+contactNum: number;
+cgpa: number;
+}
+
+************************************6 prgm
+— program6-todo.component.html -->
+<div>
+<h2>{{componentTitle}}</h2>
+<br/>
+<table>
+<thead>
+<tr class="trCls">
+<td>Task</td>
+<td>Actions</td>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let task of tasks" >
+<td>{{ task.title }}</td>
+<td><button (click)="editTask(task)">Edit</button>
+<button (click)="deleteTask(task)">Delete</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="add-task">
+<input [(ngModel)]="newTaskTitle" placeholder="New Task" />
+<button (click)="addTask()">Add</button>
+</div>
+</div>
+************************
+// program6-todo.component.ts
+import { Component } from '@angular/core';
+@Component({
+selector: 'app-program6-todo',
+templateUrl: './program6-todo.component.html',
+styleUrls: ['./program6-todo.component.css']
+})
+export class Program6TodoComponent {
+componentTitle: string = "Program #6 - To-Do List";
+tasks: Task[] = [
+{ id: 1, title: 'Task 1'},
+{ id: 2, title: 'Task 2' },
+{ id: 3, title: 'Task 3' },
+];
+newTaskTitle: string = '';
+addTask() {
+if (this.newTaskTitle.trim() !== '') {
+const newTask: Task = {
+id: this.tasks.length + 1,
+title: this.newTaskTitle
+};
+this.tasks.push(newTask);
+this.newTaskTitle = '';
+}
+}
+editTask(task: Task) {
+const newTitle = prompt('Edit task:', task.title);
+if (newTitle !== null) {
+task.title = newTitle;
+}
+}
+deleteTask(task: Task) {
+const index = this.tasks.indexOf(task);
+if (index !== -1) {
+this.tasks.splice(index, 1);
+}
+}
+}
+interface Task {
+id: number;
+title: string;
+}
